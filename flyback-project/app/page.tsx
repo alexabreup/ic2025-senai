@@ -27,8 +27,9 @@ export default function Home() {
                   </Button>
                 </Link>
                 <Link href="/blog">
-                  <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
+                  <Button size="lg" variant="outline" className="bg-black border-white text-white hover:bg-black/80">
                     Acompanhar Blog
+                    <ChevronRight className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
               </div>
