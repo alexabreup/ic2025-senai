@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
@@ -43,14 +43,8 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>
 
-// Configurações do EmailJS
-// Estas são as credenciais corretas do EmailJS
-const EMAILJS_SERVICE_ID = "service_yx5rnvq"
-const EMAILJS_TEMPLATE_ID = "template_yjdqcqj"
-const EMAILJS_PUBLIC_KEY = "xmDUVDxlOgKJpjLyp"
-
-// Alternativa para testes - use um serviço de email temporário
-const EMAIL_ENDPOINT = "https://formsubmit.co/alxabreuper@gmail.com"
+// URL do Google Apps Script
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwxow3hTvQxRQAy8hDgV6jTcvGedj4Pyzo8TOmr9cuFHFIiJIgGOyEH1LFB9324Mq8S/exec"
 
 export default function ContatoPage() {
   const [isSubmitted, setIsSubmitted] = useState(false)
@@ -70,6 +64,18 @@ export default function ContatoPage() {
     }
   })
 
+  // Função para obter o IP do cliente (simplificada)
+  const getClientIP = async () => {
+    try {
+      const response = await fetch('https://api.ipify.org?format=json')
+      const data = await response.json()
+      return data.ip
+    } catch (error) {
+      console.error("Erro ao obter o IP:", error)
+      return "unknown"
+    }
+  }
+
   // Função para lidar com o envio do formulário
   const onSubmit = async (data: FormValues) => {
     try {
@@ -82,25 +88,31 @@ export default function ContatoPage() {
       setIsSubmitting(true)
       console.log("Dados do formulário:", data)
       
-      // Preparar os dados para o envio
-      const formData = new FormData()
-      formData.append("name", data.name)
-      formData.append("email", data.email)
-      formData.append("subject", data.subject)
-      formData.append("message", data.message)
-      formData.append("_captcha", "false") // Desativar o captcha do FormSubmit
+      // Obter o IP do cliente
+      const ip = await getClientIP()
       
-      // Enviar o email usando FormSubmit (alternativa ao EmailJS)
-      const response = await fetch(EMAIL_ENDPOINT, {
+      // Preparar os dados para o envio
+      const payload = {
+        name: data.name,
+        email: data.email,
+        subject: data.subject,
+        message: data.message,
+        ip: ip
+      }
+      
+      // Enviar o email usando Google Apps Script
+      const response = await fetch(APPS_SCRIPT_URL, {
         method: "POST",
-        body: formData,
         headers: {
-          "Accept": "application/json"
-        }
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
       })
       
-      if (!response.ok) {
-        throw new Error(`Erro ao enviar o email: ${response.status}`)
+      const result = await response.json()
+      
+      if (!result.success) {
+        throw new Error(result.message || "Erro ao enviar o email")
       }
       
       console.log("Email enviado com sucesso!")
