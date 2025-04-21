@@ -1,5 +1,8 @@
-import { StaticImage } from "@/components/static-image"
 import Link from "next/link"
+import Image from "next/image"
+
+// Import the logo directly
+import senaiLogo from "../public/SENAI_Sao_Paulo_logo.png"
 
 export default function Footer() {
   return (
@@ -28,12 +31,13 @@ export default function Footer() {
                 className="block"
               >
                 <div className="relative w-32 h-12 md:w-40 md:h-16 mb-3">
-                  <StaticImage 
-                    src="SENAI_Sao_Paulo_logo.png"
+                  <Image 
+                    src={senaiLogo}
                     alt="Logo SENAI São Paulo" 
                     fill
                     style={{ objectFit: 'contain' }}
                     priority
+                    unoptimized
                   />
                 </div>
               </Link>

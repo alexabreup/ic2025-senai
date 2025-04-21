@@ -9,11 +9,9 @@ interface StaticImageProps extends Omit<ImageProps, 'src'> {
  * Lida automaticamente com o basePath do Next.js
  */
 export function StaticImage({ src, ...props }: StaticImageProps) {
-  // Determinar se estamos em ambiente de desenvolvimento ou produção
-  const basePath = process.env.NODE_ENV === "development" ? "" : "/ic2025-senai";
+  // For images in the public directory, we need to ensure they work with basePath
+  // This approach works with Next.js static export for GitHub Pages
+  const imageSrc = src.startsWith('/') ? src : `/${src}`;
   
-  // Construir o caminho completo da imagem
-  const imagePath = `${basePath}/${src}`;
-  
-  return <Image src={imagePath} {...props} />;
+  return <Image src={imageSrc} {...props} unoptimized />;
 }
