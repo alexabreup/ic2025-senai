@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste de Imagem SENAI</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .image-test {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        img {
+            max-width: 300px;
+            border: 1px dashed #ccc;
+            padding: 5px;
+        }
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Teste de Carregamento de Imagem SENAI</h1>
+    <p>Esta página testa diferentes formas de carregar a imagem do logo do SENAI para diagnosticar o problema de 404.</p>
+
+    <div class="image-test">
+        <h2>Teste 1: Caminho Relativo Simples</h2>
+        <img src="SENAI_Sao_Paulo_logo.png" alt="Logo SENAI - Teste 1">
+        <p>Caminho usado: <code>SENAI_Sao_Paulo_logo.png</code></p>
+    </div>
+
+    <div class="image-test">
+        <h2>Teste 2: Caminho com Barra Inicial</h2>
+        <img src="/SENAI_Sao_Paulo_logo.png" alt="Logo SENAI - Teste 2">
+        <p>Caminho usado: <code>/SENAI_Sao_Paulo_logo.png</code></p>
+    </div>
+
+    <div class="image-test">
+        <h2>Teste 3: Caminho com Base Path</h2>
+        <img src="/ic2025-senai/SENAI_Sao_Paulo_logo.png" alt="Logo SENAI - Teste 3">
+        <p>Caminho usado: <code>/ic2025-senai/SENAI_Sao_Paulo_logo.png</code></p>
+    </div>
+
+    <div class="image-test">
+        <h2>Teste 4: Caminho Relativo com Base Path</h2>
+        <img src="ic2025-senai/SENAI_Sao_Paulo_logo.png" alt="Logo SENAI - Teste 4">
+        <p>Caminho usado: <code>ic2025-senai/SENAI_Sao_Paulo_logo.png</code></p>
+    </div>
+
+    <script>
+        // Verifica quais imagens carregaram corretamente
+        document.addEventListener('DOMContentLoaded', function() {
+            const images = document.querySelectorAll('img');
+            
+            images.forEach(img => {
+                img.addEventListener('load', function() {
+                    const testDiv = this.closest('.image-test');
+                    const p = document.createElement('p');
+                    p.textContent = '✅ Imagem carregada com sucesso!';
+                    p.className = 'success';
+                    testDiv.appendChild(p);
+                });
+                
+                img.addEventListener('error', function() {
+                    const testDiv = this.closest('.image-test');
+                    const p = document.createElement('p');
+                    p.textContent = '❌ Erro 404: Imagem não encontrada';
+                    p.className = 'error';
+                    testDiv.appendChild(p);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
