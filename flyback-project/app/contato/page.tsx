@@ -1,9 +1,63 @@
+"use client"
+
+import { useState } from "react"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import * as z from "zod"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Mail, MapPin, Phone } from "lucide-react"
+import { Mail, MapPin, Phone, CheckCircle } from "lucide-react"
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
+import { toast } from "sonner"
+
+// Esquema de validação com Zod
+const formSchema = z.object({
+  name: z.string().min(2, { message: "Nome deve ter pelo menos 2 caracteres" }),
+  email: z.string().email({ message: "Email inválido" }),
+  subject: z.string().min(5, { message: "Assunto deve ter pelo menos 5 caracteres" }),
+  message: z.string().min(10, { message: "Mensagem deve ter pelo menos 10 caracteres" }),
+  captcha: z.string().refine((val) => val === "7", { 
+    message: "Resposta incorreta. Por favor, tente novamente." 
+  })
+})
+
+type FormValues = z.infer<typeof formSchema>
 
 export default function ContatoPage() {
+  const [isSubmitted, setIsSubmitted] = useState(false)
+  
+  // Inicializar o formulário com react-hook-form e validação zod
+  const form = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      subject: "",
+      message: "",
+      captcha: ""
+    }
+  })
+
+  // Função para lidar com o envio do formulário
+  const onSubmit = (data: FormValues) => {
+    // Em um ambiente real, você enviaria os dados para um servidor
+    console.log("Dados do formulário:", data)
+    
+    // Simular envio bem-sucedido
+    setTimeout(() => {
+      setIsSubmitted(true)
+      toast.success("Mensagem enviada com sucesso!")
+    }, 1000)
+  }
+
   return (
     <div className="container py-12 md:py-16 lg:py-24">
       <div className="max-w-4xl mx-auto">
@@ -15,35 +69,104 @@ export default function ContatoPage() {
         <div className="grid md:grid-cols-2 gap-12">
           <div>
             <h2 className="text-2xl font-bold mb-6">Envie uma mensagem</h2>
-            <form className="space-y-4">
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium mb-1">
-                  Nome
-                </label>
-                <Input id="name" placeholder="Seu nome" />
+            
+            {isSubmitted ? (
+              <div className="bg-primary/10 rounded-lg p-6 text-center">
+                <CheckCircle className="h-12 w-12 text-primary mx-auto mb-4" />
+                <h3 className="text-xl font-medium mb-2">Mensagem Enviada!</h3>
+                <p className="text-muted-foreground mb-4">
+                  Obrigado pelo seu contato. Responderemos em breve.
+                </p>
+                <Button onClick={() => {
+                  setIsSubmitted(false)
+                  form.reset()
+                }}>
+                  Enviar outra mensagem
+                </Button>
               </div>
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium mb-1">
-                  Email
-                </label>
-                <Input id="email" type="email" placeholder="seu.email@exemplo.com" />
-              </div>
-              <div>
-                <label htmlFor="subject" className="block text-sm font-medium mb-1">
-                  Assunto
-                </label>
-                <Input id="subject" placeholder="Assunto da mensagem" />
-              </div>
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium mb-1">
-                  Mensagem
-                </label>
-                <Textarea id="message" placeholder="Sua mensagem" rows={5} />
-              </div>
-              <Button type="submit" className="w-full">
-                Enviar mensagem
-              </Button>
-            </form>
+            ) : (
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Nome</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Seu nome" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input type="email" placeholder="seu.email@exemplo.com" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <FormField
+                    control={form.control}
+                    name="subject"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Assunto</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Assunto da mensagem" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <FormField
+                    control={form.control}
+                    name="message"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Mensagem</FormLabel>
+                        <FormControl>
+                          <Textarea placeholder="Sua mensagem" rows={5} {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  {/* Proteção Antispam Simples */}
+                  <FormField
+                    control={form.control}
+                    name="captcha"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Proteção Antispam</FormLabel>
+                        <div className="bg-muted/50 p-3 rounded-md mb-2">
+                          <p className="text-sm">Para verificar que você não é um robô, responda: Quanto é 3 + 4?</p>
+                        </div>
+                        <FormControl>
+                          <Input placeholder="Sua resposta" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <Button type="submit" className="w-full">
+                    Enviar mensagem
+                  </Button>
+                </form>
+              </Form>
+            )}
           </div>
 
           <div>
