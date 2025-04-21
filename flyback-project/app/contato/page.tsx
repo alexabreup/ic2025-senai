@@ -1,13 +1,14 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
+import emailjs from '@emailjs/browser'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Mail, MapPin, Phone, CheckCircle } from "lucide-react"
+import { Mail, MapPin, Phone, CheckCircle, Loader2 } from "lucide-react"
 import {
   Form,
   FormControl,
@@ -31,8 +32,15 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>
 
+// Configurações do EmailJS
+const EMAILJS_SERVICE_ID = "service_yx5rnvq" // Você precisará criar uma conta e configurar um serviço no EmailJS
+const EMAILJS_TEMPLATE_ID = "template_yjdqcqj" // Você precisará criar um template no EmailJS
+const EMAILJS_PUBLIC_KEY = "xmDUVDxlOgKJpjLyp" // Sua chave pública do EmailJS
+
 export default function ContatoPage() {
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const formRef = useRef<HTMLFormElement>(null)
   
   // Inicializar o formulário com react-hook-form e validação zod
   const form = useForm<FormValues>({
@@ -47,15 +55,36 @@ export default function ContatoPage() {
   })
 
   // Função para lidar com o envio do formulário
-  const onSubmit = (data: FormValues) => {
-    // Em um ambiente real, você enviaria os dados para um servidor
-    console.log("Dados do formulário:", data)
-    
-    // Simular envio bem-sucedido
-    setTimeout(() => {
-      setIsSubmitted(true)
+  const onSubmit = async (data: FormValues) => {
+    try {
+      setIsSubmitting(true)
+      
+      // Preparar os dados para o EmailJS
+      const templateParams = {
+        from_name: data.name,
+        from_email: data.email,
+        to_email: "alxabreuper@gmail.com",
+        subject: data.subject,
+        message: data.message
+      }
+      
+      // Enviar o email usando EmailJS
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        templateParams,
+        EMAILJS_PUBLIC_KEY
+      )
+      
+      // Mostrar mensagem de sucesso
       toast.success("Mensagem enviada com sucesso!")
-    }, 1000)
+      setIsSubmitted(true)
+    } catch (error) {
+      console.error("Erro ao enviar o email:", error)
+      toast.error("Erro ao enviar a mensagem. Por favor, tente novamente.")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -86,7 +115,7 @@ export default function ContatoPage() {
               </div>
             ) : (
               <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <form ref={formRef} onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                   <FormField
                     control={form.control}
                     name="name"
@@ -161,8 +190,15 @@ export default function ContatoPage() {
                     )}
                   />
                   
-                  <Button type="submit" className="w-full">
-                    Enviar mensagem
+                  <Button type="submit" className="w-full" disabled={isSubmitting}>
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Enviando...
+                      </>
+                    ) : (
+                      "Enviar mensagem"
+                    )}
                   </Button>
                 </form>
               </Form>
@@ -189,7 +225,7 @@ export default function ContatoPage() {
                 <div>
                   <h3 className="font-medium">Email</h3>
                   <p className="text-muted-foreground">
-                    alexandre.pereira@aluno.senai.br
+                    alxabreuper@gmail.com
                     <br />
                     luis.canno@senai.br
                   </p>
