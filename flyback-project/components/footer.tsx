@@ -1,4 +1,5 @@
 import { StaticImage } from "@/components/static-image"
+import Link from "next/link"
 
 export default function Footer() {
   return (
@@ -20,20 +21,34 @@ export default function Footer() {
           <div>
             <h3 className="text-lg font-semibold mb-3">Instituição</h3>
             <div className="flex flex-col items-center md:items-start mb-3">
-              <div className="relative w-32 h-12 md:w-40 md:h-16 mb-3">
-                <StaticImage 
-                  src="SENAI_São_Paulo_logo.png"
-                  alt="Logo SENAI São Paulo" 
-                  fill
-                  style={{ objectFit: 'contain' }}
-                  priority
-                />
-              </div>
+              <Link 
+                href="https://sp.senai.br/unidade/conectividade/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="block"
+              >
+                <div className="relative w-32 h-12 md:w-40 md:h-16 mb-3">
+                  <StaticImage 
+                    src="SENAI_Sao_Paulo_logo.png"
+                    alt="Logo SENAI São Paulo" 
+                    fill
+                    style={{ objectFit: 'contain' }}
+                    priority
+                  />
+                </div>
+              </Link>
             </div>
             <p className="text-muted-foreground">
-              Faculdade de Tecnologia em Eletrônica Industrial do Senai Anchieta
-              <br />
-              Vila Mariana, São Paulo, SP Brasil
+              <Link 
+                href="https://sp.senai.br/unidade/conectividade/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="hover:underline"
+              >
+                Faculdade de Tecnologia em Eletrônica Industrial do Senai Anchieta
+                <br />
+                Vila Mariana, São Paulo, SP Brasil
+              </Link>
             </p>
           </div>
         </div>
