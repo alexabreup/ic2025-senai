@@ -4,7 +4,6 @@ import { useState, useRef } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
-import emailjs from '@emailjs/browser'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -33,9 +32,9 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>
 
 // Configurações do EmailJS
-const EMAILJS_SERVICE_ID = "service_yx5rnvq" // Você precisará criar uma conta e configurar um serviço no EmailJS
-const EMAILJS_TEMPLATE_ID = "template_yjdqcqj" // Você precisará criar um template no EmailJS
-const EMAILJS_PUBLIC_KEY = "xmDUVDxlOgKJpjLyp" // Sua chave pública do EmailJS
+const EMAILJS_SERVICE_ID = "service_yx5rnvq"
+const EMAILJS_TEMPLATE_ID = "template_yjdqcqj"
+const EMAILJS_PUBLIC_KEY = "xmDUVDxlOgKJpjLyp"
 
 export default function ContatoPage() {
   const [isSubmitted, setIsSubmitted] = useState(false)
@@ -58,23 +57,30 @@ export default function ContatoPage() {
   const onSubmit = async (data: FormValues) => {
     try {
       setIsSubmitting(true)
+      console.log("Dados do formulário:", data)
       
       // Preparar os dados para o EmailJS
       const templateParams = {
         from_name: data.name,
         from_email: data.email,
+        to_name: "Alexandre Pereira",
         to_email: "alxabreuper@gmail.com",
         subject: data.subject,
         message: data.message
       }
       
+      // Importar o EmailJS dinamicamente para evitar problemas com SSR
+      const emailjs = await import('@emailjs/browser');
+      
       // Enviar o email usando EmailJS
-      await emailjs.send(
+      const response = await emailjs.send(
         EMAILJS_SERVICE_ID,
         EMAILJS_TEMPLATE_ID,
         templateParams,
         EMAILJS_PUBLIC_KEY
       )
+      
+      console.log("Email enviado com sucesso:", response)
       
       // Mostrar mensagem de sucesso
       toast.success("Mensagem enviada com sucesso!")
