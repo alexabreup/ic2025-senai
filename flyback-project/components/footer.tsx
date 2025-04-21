@@ -1,3 +1,5 @@
+import Image from "next/image"
+
 export default function Footer() {
   return (
     <footer className="w-full border-t bg-background">
@@ -17,6 +19,17 @@ export default function Footer() {
           </div>
           <div>
             <h3 className="text-lg font-semibold mb-3">Instituição</h3>
+            <div className="flex flex-col items-center md:items-start mb-3">
+              <div className="relative w-32 h-12 md:w-40 md:h-16 mb-3">
+                <Image 
+                  src="/SENAI_São_Paulo_logo.png" 
+                  alt="Logo SENAI São Paulo" 
+                  fill
+                  style={{ objectFit: 'contain' }}
+                  priority
+                />
+              </div>
+            </div>
             <p className="text-muted-foreground">
               Faculdade de Tecnologia em Eletrônica Industrial do Senai Anchieta
               <br />
