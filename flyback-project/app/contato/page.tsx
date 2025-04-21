@@ -38,7 +38,8 @@ const formSchema = z.object({
   message: z.string().min(10, { message: "Mensagem deve ter pelo menos 10 caracteres" }),
   captcha: z.string().refine((val) => true, { 
     message: "Resposta incorreta. Por favor, tente novamente." 
-  })
+  }),
+  honeypot: z.string().optional() // Campo honeypot para detectar bots
 })
 
 type FormValues = z.infer<typeof formSchema>
@@ -60,7 +61,8 @@ export default function ContatoPage() {
       email: "",
       subject: "",
       message: "",
-      captcha: ""
+      captcha: "",
+      honeypot: ""
     }
   })
 
@@ -79,6 +81,14 @@ export default function ContatoPage() {
   // Função para lidar com o envio do formulário
   const onSubmit = async (data: FormValues) => {
     try {
+      // Verificar se o campo honeypot foi preenchido (se foi, é provavelmente um bot)
+      if (data.honeypot) {
+        console.log("Bot detectado pelo honeypot")
+        // Simular sucesso para o bot, mas não enviar o email
+        setIsSubmitted(true)
+        return
+      }
+      
       // Verificar a resposta do captcha
       if (data.captcha !== captcha.answer) {
         toast.error("Resposta do captcha incorreta. Por favor, tente novamente.")
@@ -101,21 +111,18 @@ export default function ContatoPage() {
       }
       
       // Enviar o email usando Google Apps Script
-      const response = await fetch(APPS_SCRIPT_URL, {
+      await fetch(APPS_SCRIPT_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(payload),
+        mode: 'no-cors' // Importante para contornar CORS
       })
       
-      const result = await response.json()
-      
-      if (!result.success) {
-        throw new Error(result.message || "Erro ao enviar o email")
-      }
-      
-      console.log("Email enviado com sucesso!")
+      // Como estamos usando mode: 'no-cors', a resposta será "opaca"
+      // Não podemos verificar o status da resposta
+      console.log("Solicitação enviada com sucesso (verifique seu email)")
       
       // Mostrar mensagem de sucesso
       toast.success("Mensagem enviada com sucesso!")
@@ -161,6 +168,22 @@ export default function ContatoPage() {
             ) : (
               <Form {...form}>
                 <form ref={formRef} onSubmit={form.handleSubmit(onSubmit as any)} className="space-y-4">
+                  {/* Campo honeypot - escondido dos usuários, mas visível para bots */}
+                  <div className="hidden">
+                    <FormField
+                      control={form.control as any}
+                      name="honeypot"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Deixe este campo em branco</FormLabel>
+                          <FormControl>
+                            <Input {...field} />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  
                   <FormField
                     control={form.control as any}
                     name="name"

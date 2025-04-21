@@ -25,7 +25,7 @@ export default function Navbar() {
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-2">
           <Link href="/" className="flex items-center">
-            <span className="text-xl font-bold text-primary">Flyback IA</span>
+            <span className="text-xl font-bold text-primary">Flyback IA - IC 2025</span>
           </Link>
         </div>
 
