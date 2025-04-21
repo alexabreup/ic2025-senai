@@ -18,13 +18,25 @@ import {
 } from "@/components/ui/form"
 import { toast } from "sonner"
 
+// Gerar uma pergunta antispam aleatória
+const generateCaptcha = () => {
+  const captchas = [
+    { question: "Quanto é 3 + 4?", answer: "7" },
+    { question: "Quanto é 2 + 3?", answer: "5" },
+    { question: "Quanto é 5 + 2?", answer: "7" },
+    { question: "Quanto é 1 + 6?", answer: "7" },
+    { question: "Quanto é 4 + 3?", answer: "7" }
+  ]
+  return captchas[Math.floor(Math.random() * captchas.length)]
+}
+
 // Esquema de validação com Zod
 const formSchema = z.object({
   name: z.string().min(2, { message: "Nome deve ter pelo menos 2 caracteres" }),
   email: z.string().email({ message: "Email inválido" }),
   subject: z.string().min(5, { message: "Assunto deve ter pelo menos 5 caracteres" }),
   message: z.string().min(10, { message: "Mensagem deve ter pelo menos 10 caracteres" }),
-  captcha: z.string().refine((val) => val === "7", { 
+  captcha: z.string().refine((val) => true, { 
     message: "Resposta incorreta. Por favor, tente novamente." 
   })
 })
@@ -32,31 +44,19 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>
 
 // Configurações do EmailJS
+// Estas são as credenciais corretas do EmailJS
 const EMAILJS_SERVICE_ID = "service_yx5rnvq"
 const EMAILJS_TEMPLATE_ID = "template_yjdqcqj"
 const EMAILJS_PUBLIC_KEY = "xmDUVDxlOgKJpjLyp"
+
+// Alternativa para testes - use um serviço de email temporário
+const EMAIL_ENDPOINT = "https://formsubmit.co/alxabreuper@gmail.com"
 
 export default function ContatoPage() {
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const formRef = useRef<HTMLFormElement>(null)
-  
-  // Carregar o script do EmailJS
-  useEffect(() => {
-    // Carregar o script do EmailJS
-    const script = document.createElement('script')
-    script.src = "https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"
-    script.async = true
-    script.onload = () => {
-      // @ts-ignore
-      window.emailjs.init(EMAILJS_PUBLIC_KEY)
-    }
-    document.body.appendChild(script)
-    
-    return () => {
-      document.body.removeChild(script)
-    }
-  }, [])
+  const [captcha, setCaptcha] = useState(generateCaptcha())
   
   // Inicializar o formulário com react-hook-form e validação zod
   const form = useForm<FormValues>({
@@ -73,28 +73,37 @@ export default function ContatoPage() {
   // Função para lidar com o envio do formulário
   const onSubmit = async (data: FormValues) => {
     try {
+      // Verificar a resposta do captcha
+      if (data.captcha !== captcha.answer) {
+        toast.error("Resposta do captcha incorreta. Por favor, tente novamente.")
+        return
+      }
+      
       setIsSubmitting(true)
       console.log("Dados do formulário:", data)
       
-      // Preparar os dados para o EmailJS
-      const templateParams = {
-        from_name: data.name,
-        from_email: data.email,
-        to_name: "Alexandre Pereira",
-        to_email: "alxabreuper@gmail.com",
-        subject: data.subject,
-        message: data.message
+      // Preparar os dados para o envio
+      const formData = new FormData()
+      formData.append("name", data.name)
+      formData.append("email", data.email)
+      formData.append("subject", data.subject)
+      formData.append("message", data.message)
+      formData.append("_captcha", "false") // Desativar o captcha do FormSubmit
+      
+      // Enviar o email usando FormSubmit (alternativa ao EmailJS)
+      const response = await fetch(EMAIL_ENDPOINT, {
+        method: "POST",
+        body: formData,
+        headers: {
+          "Accept": "application/json"
+        }
+      })
+      
+      if (!response.ok) {
+        throw new Error(`Erro ao enviar o email: ${response.status}`)
       }
       
-      // Enviar o email usando EmailJS
-      // @ts-ignore
-      const response = await window.emailjs.send(
-        EMAILJS_SERVICE_ID,
-        EMAILJS_TEMPLATE_ID,
-        templateParams
-      )
-      
-      console.log("Email enviado com sucesso:", response)
+      console.log("Email enviado com sucesso!")
       
       // Mostrar mensagem de sucesso
       toast.success("Mensagem enviada com sucesso!")
@@ -105,6 +114,13 @@ export default function ContatoPage() {
     } finally {
       setIsSubmitting(false)
     }
+  }
+
+  // Gerar uma nova pergunta captcha quando o formulário for resetado
+  const handleReset = () => {
+    setIsSubmitted(false)
+    setCaptcha(generateCaptcha())
+    form.reset()
   }
 
   return (
@@ -126,10 +142,7 @@ export default function ContatoPage() {
                 <p className="text-muted-foreground mb-4">
                   Obrigado pelo seu contato. Responderemos em breve.
                 </p>
-                <Button onClick={() => {
-                  setIsSubmitted(false)
-                  form.reset()
-                }}>
+                <Button onClick={handleReset}>
                   Enviar outra mensagem
                 </Button>
               </div>
@@ -200,7 +213,7 @@ export default function ContatoPage() {
                       <FormItem>
                         <FormLabel>Proteção Antispam</FormLabel>
                         <div className="bg-muted/50 p-3 rounded-md mb-2">
-                          <p className="text-sm">Para verificar que você não é um robô, responda: Quanto é 3 + 4?</p>
+                          <p className="text-sm">Para verificar que você não é um robô, responda: {captcha.question}</p>
                         </div>
                         <FormControl>
                           <Input placeholder="Sua resposta" {...field} />
