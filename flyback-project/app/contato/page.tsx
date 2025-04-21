@@ -44,8 +44,8 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>
 
-// URL do Google Apps Script
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzonRX0mGnUBthaLVu3t3SFHNcbR85-FFR7zvW4e4c/exec"
+// URL do FormSubmit
+const FORMSUBMIT_URL = "https://formsubmit.co/alxabreuper@gmail.com"
 
 export default function ContatoPage() {
   const [isSubmitted, setIsSubmitted] = useState(false)
@@ -65,18 +65,6 @@ export default function ContatoPage() {
       honeypot: ""
     }
   })
-
-  // Função para obter o IP do cliente (simplificada)
-  const getClientIP = async () => {
-    try {
-      const response = await fetch('https://api.ipify.org?format=json')
-      const data = await response.json()
-      return data.ip
-    } catch (error) {
-      console.error("Erro ao obter o IP:", error)
-      return "unknown"
-    }
-  }
 
   // Função para lidar com o envio do formulário
   const onSubmit = async (data: FormValues) => {
@@ -98,42 +86,9 @@ export default function ContatoPage() {
       setIsSubmitting(true)
       console.log("Dados do formulário:", data)
       
-      // Obter o IP do cliente
-      const ip = await getClientIP()
-      
-      // Preparar os dados para o envio
-      const payload = {
-        name: data.name,
-        email: data.email,
-        subject: data.subject,
-        message: data.message,
-        ip: ip
-      }
-      
-      let success = false
-      
-      // Tentativa 1: Enviar usando Google Apps Script com modo no-cors
+      // Enviar usando FormSubmit
       try {
-        console.log("Tentativa 1: Enviando via Google Apps Script com modo no-cors...")
-        await fetch(APPS_SCRIPT_URL, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-          mode: 'no-cors' // Usar no-cors para evitar erros de CORS
-        })
-        
-        // Como estamos usando no-cors, não podemos verificar a resposta
-        // Vamos assumir que funcionou e continuar com o FormSubmit como backup
-        console.log("Solicitação enviada para o Google Apps Script (resposta não verificável)")
-      } catch (error) {
-        console.warn("Erro na tentativa 1:", error)
-      }
-      
-      // Tentativa 2: Usar FormSubmit como método principal
-      try {
-        console.log("Tentativa 2: Enviando via FormSubmit...")
+        console.log("Enviando via FormSubmit...")
         const formData = new FormData()
         formData.append("name", data.name)
         formData.append("email", data.email)
@@ -141,32 +96,29 @@ export default function ContatoPage() {
         formData.append("message", data.message)
         formData.append("_captcha", "false") // Desativar o captcha do FormSubmit
         
-        const formSubmitResponse = await fetch("https://formsubmit.co/alxabreuper@gmail.com", {
+        // Adicionar campos para redirecionamento e template
+        formData.append("_next", window.location.href) // Redirecionar de volta para a mesma página
+        formData.append("_template", "table") // Usar template de tabela para o email
+        
+        const response = await fetch(FORMSUBMIT_URL, {
           method: "POST",
           body: formData
         })
         
-        if (formSubmitResponse.ok) {
+        if (response.ok) {
           console.log("Email enviado com sucesso via FormSubmit!")
-          success = true
+          toast.success("Mensagem enviada com sucesso!")
+          setIsSubmitted(true)
         } else {
-          console.warn(`Erro na tentativa 2: ${formSubmitResponse.status}`)
+          console.warn(`Erro ao enviar: ${response.status}`)
+          throw new Error(`Erro ao enviar: ${response.status}`)
         }
       } catch (error) {
-        console.warn("Erro na tentativa 2:", error)
-      }
-      
-      // Verificar se alguma das tentativas foi bem-sucedida
-      // Como não podemos verificar o resultado do Google Apps Script com no-cors,
-      // vamos confiar no resultado do FormSubmit
-      if (success) {
-        toast.success("Mensagem enviada com sucesso!")
-        setIsSubmitted(true)
-      } else {
-        throw new Error("Todas as tentativas de envio falharam")
+        console.error("Erro ao enviar o email:", error)
+        throw error
       }
     } catch (error) {
-      console.error("Erro ao enviar o email:", error)
+      console.error("Erro ao processar o formulário:", error)
       toast.error("Erro ao enviar a mensagem. Por favor, tente novamente.")
     } finally {
       setIsSubmitting(false)
