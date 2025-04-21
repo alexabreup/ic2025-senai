@@ -1,5 +1,4 @@
-import Image from "next/image"
-import { getResourcePath } from "@/lib/utils"
+import { StaticImage } from "@/components/static-image"
 
 export default function Footer() {
   return (
@@ -22,8 +21,8 @@ export default function Footer() {
             <h3 className="text-lg font-semibold mb-3">Instituição</h3>
             <div className="flex flex-col items-center md:items-start mb-3">
               <div className="relative w-32 h-12 md:w-40 md:h-16 mb-3">
-                <Image 
-                  src={getResourcePath("SENAI_São_Paulo_logo.png")}
+                <StaticImage 
+                  src="SENAI_São_Paulo_logo.png"
                   alt="Logo SENAI São Paulo" 
                   fill
                   style={{ objectFit: 'contain' }}
