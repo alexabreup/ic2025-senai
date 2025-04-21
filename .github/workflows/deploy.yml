@@ -31,9 +31,16 @@ jobs:
         with:
           enablement: true
       - name: Install dependencies
-        run: cd flyback-project && npm install
+        run: |
+          cd flyback-project
+          npm install --legacy-peer-deps
       - name: Build with Next.js
-        run: cd flyback-project && npm run build
+        run: |
+          cd flyback-project
+          npm run build
+        env:
+          NODE_ENV: production
+          CI: true
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
