@@ -112,55 +112,53 @@ export default function ContatoPage() {
       
       let success = false
       
-      // Tentativa 1: Enviar usando Google Apps Script diretamente
+      // Tentativa 1: Enviar usando Google Apps Script com modo no-cors
       try {
-        console.log("Tentativa 1: Enviando via Google Apps Script diretamente...")
-        const response = await fetch(APPS_SCRIPT_URL, {
+        console.log("Tentativa 1: Enviando via Google Apps Script com modo no-cors...")
+        await fetch(APPS_SCRIPT_URL, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(payload)
+          body: JSON.stringify(payload),
+          mode: 'no-cors' // Usar no-cors para evitar erros de CORS
         })
         
-        if (response.ok) {
-          console.log("Email enviado com sucesso via Google Apps Script!")
-          success = true
-        } else {
-          console.warn(`Erro na tentativa 1: ${response.status} ${response.statusText}`)
-        }
+        // Como estamos usando no-cors, não podemos verificar a resposta
+        // Vamos assumir que funcionou e continuar com o FormSubmit como backup
+        console.log("Solicitação enviada para o Google Apps Script (resposta não verificável)")
       } catch (error) {
         console.warn("Erro na tentativa 1:", error)
       }
       
-      // Tentativa 2: Usar FormSubmit como fallback
-      if (!success) {
-        try {
-          console.log("Tentativa 2: Enviando via FormSubmit...")
-          const formData = new FormData()
-          formData.append("name", data.name)
-          formData.append("email", data.email)
-          formData.append("subject", data.subject)
-          formData.append("message", data.message)
-          formData.append("_captcha", "false") // Desativar o captcha do FormSubmit
-          
-          const formSubmitResponse = await fetch("https://formsubmit.co/alxabreuper@gmail.com", {
-            method: "POST",
-            body: formData
-          })
-          
-          if (formSubmitResponse.ok) {
-            console.log("Email enviado com sucesso via FormSubmit!")
-            success = true
-          } else {
-            console.warn(`Erro na tentativa 2: ${formSubmitResponse.status}`)
-          }
-        } catch (error) {
-          console.warn("Erro na tentativa 2:", error)
+      // Tentativa 2: Usar FormSubmit como método principal
+      try {
+        console.log("Tentativa 2: Enviando via FormSubmit...")
+        const formData = new FormData()
+        formData.append("name", data.name)
+        formData.append("email", data.email)
+        formData.append("subject", data.subject)
+        formData.append("message", data.message)
+        formData.append("_captcha", "false") // Desativar o captcha do FormSubmit
+        
+        const formSubmitResponse = await fetch("https://formsubmit.co/alxabreuper@gmail.com", {
+          method: "POST",
+          body: formData
+        })
+        
+        if (formSubmitResponse.ok) {
+          console.log("Email enviado com sucesso via FormSubmit!")
+          success = true
+        } else {
+          console.warn(`Erro na tentativa 2: ${formSubmitResponse.status}`)
         }
+      } catch (error) {
+        console.warn("Erro na tentativa 2:", error)
       }
       
       // Verificar se alguma das tentativas foi bem-sucedida
+      // Como não podemos verificar o resultado do Google Apps Script com no-cors,
+      // vamos confiar no resultado do FormSubmit
       if (success) {
         toast.success("Mensagem enviada com sucesso!")
         setIsSubmitted(true)
