@@ -1,4 +1,5 @@
 import Image from "next/image"
+import { getResourcePath } from "@/lib/utils"
 
 export default function Footer() {
   return (
@@ -22,7 +23,7 @@ export default function Footer() {
             <div className="flex flex-col items-center md:items-start mb-3">
               <div className="relative w-32 h-12 md:w-40 md:h-16 mb-3">
                 <Image 
-                  src="/SENAI_São_Paulo_logo.png" 
+                  src={getResourcePath("SENAI_São_Paulo_logo.png")}
                   alt="Logo SENAI São Paulo" 
                   fill
                   style={{ objectFit: 'contain' }}
