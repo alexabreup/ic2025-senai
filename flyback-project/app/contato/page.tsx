@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
@@ -41,6 +41,23 @@ export default function ContatoPage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const formRef = useRef<HTMLFormElement>(null)
   
+  // Carregar o script do EmailJS
+  useEffect(() => {
+    // Carregar o script do EmailJS
+    const script = document.createElement('script')
+    script.src = "https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"
+    script.async = true
+    script.onload = () => {
+      // @ts-ignore
+      window.emailjs.init(EMAILJS_PUBLIC_KEY)
+    }
+    document.body.appendChild(script)
+    
+    return () => {
+      document.body.removeChild(script)
+    }
+  }, [])
+  
   // Inicializar o formulário com react-hook-form e validação zod
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -69,15 +86,12 @@ export default function ContatoPage() {
         message: data.message
       }
       
-      // Importar o EmailJS dinamicamente para evitar problemas com SSR
-      const emailjs = await import('@emailjs/browser');
-      
       // Enviar o email usando EmailJS
-      const response = await emailjs.send(
+      // @ts-ignore
+      const response = await window.emailjs.send(
         EMAILJS_SERVICE_ID,
         EMAILJS_TEMPLATE_ID,
-        templateParams,
-        EMAILJS_PUBLIC_KEY
+        templateParams
       )
       
       console.log("Email enviado com sucesso:", response)
@@ -121,9 +135,9 @@ export default function ContatoPage() {
               </div>
             ) : (
               <Form {...form}>
-                <form ref={formRef} onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <form ref={formRef} onSubmit={form.handleSubmit(onSubmit as any)} className="space-y-4">
                   <FormField
-                    control={form.control}
+                    control={form.control as any}
                     name="name"
                     render={({ field }) => (
                       <FormItem>
@@ -137,7 +151,7 @@ export default function ContatoPage() {
                   />
                   
                   <FormField
-                    control={form.control}
+                    control={form.control as any}
                     name="email"
                     render={({ field }) => (
                       <FormItem>
@@ -151,7 +165,7 @@ export default function ContatoPage() {
                   />
                   
                   <FormField
-                    control={form.control}
+                    control={form.control as any}
                     name="subject"
                     render={({ field }) => (
                       <FormItem>
@@ -165,7 +179,7 @@ export default function ContatoPage() {
                   />
                   
                   <FormField
-                    control={form.control}
+                    control={form.control as any}
                     name="message"
                     render={({ field }) => (
                       <FormItem>
@@ -180,7 +194,7 @@ export default function ContatoPage() {
                   
                   {/* Proteção Antispam Simples */}
                   <FormField
-                    control={form.control}
+                    control={form.control as any}
                     name="captcha"
                     render={({ field }) => (
                       <FormItem>
