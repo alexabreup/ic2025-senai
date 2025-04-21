@@ -1,0 +1,3 @@
+build:
+  preset: static
+  staticDir: ./flyback-project/out
