@@ -45,7 +45,7 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>
 
 // URL do Google Apps Script
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwxow3hTvQxRQAy8hDgV6jTcvGedj4Pyzo8TOmr9cuFHFIiJIgGOyEH1LFB9324Mq8S/exec"
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwL1g82zW62eI5LcTOdRGIJNFHg3gx5dQwWU-bhgAgAkfn4S-pxmF4LBUZ4u-Vq2iH_/exec"
 
 export default function ContatoPage() {
   const [isSubmitted, setIsSubmitted] = useState(false)
