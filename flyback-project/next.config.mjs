@@ -1,7 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
-  basePath: process.env.NEXT_PUBLIC_BASE_PATH || '',
+  basePath: '/ic2025-senai',
+  assetPrefix: '/ic2025-senai/',
   images: {
     unoptimized: true,
   },
