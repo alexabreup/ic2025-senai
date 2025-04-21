@@ -26,10 +26,6 @@ jobs:
           node-version: "20"
           cache: 'npm'
           cache-dependency-path: './flyback-project/package.json'
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-        with:
-          enablement: true
       - name: Install dependencies
         run: |
           cd flyback-project
@@ -40,7 +36,7 @@ jobs:
           npm run build
         env:
           NODE_ENV: production
-          CI: true
+          NEXT_PUBLIC_BASE_PATH: "/ic2025_alexandre-pereira"
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
@@ -56,5 +52,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-        with:
-          enablement: true
