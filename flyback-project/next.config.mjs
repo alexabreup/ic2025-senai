@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
-  basePath: '/ic2025_alexandre-pereira/flyback-project',
-  assetPrefix: '/ic2025_alexandre-pereira/flyback-project/',
+  basePath: '',
+  assetPrefix: '',
   images: {
     unoptimized: true,
   },
