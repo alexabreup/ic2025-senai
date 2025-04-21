@@ -60,7 +60,7 @@ async function getPostContent(slug: string): Promise<string> {
 
 ## Componentes Utilizados
 
-- Fonte Flyback com CI TNY286
+- Fonte Flyback com circuito intergrado (~10W de potência)
 - Carga eletrônica ajustável
 - Sensores de tensão e corrente
 - Microcontrolador STM32

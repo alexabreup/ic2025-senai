@@ -21,15 +21,15 @@ Este projeto visa desenvolver um sistema inteligente baseado em **Inteligência 
 ## 🛠️ Instalação e Uso  
 
 ### 📋 Requisitos de Hardware  
-- Fonte Flyback com CI TNY286 (20W).  
-- Microcontroladores: STM32 (processamento), ESP32 (Wi-Fi).  
+- Fonte Flyback em circuito intergrado(~10W).  
+- Microcontroladores: STM32 (processamento), ESP32 (Wi-Fi / IoT).  
 - Sensores: tensão, corrente, temperatura.  
 - Carga eletrônica ajustável.  
 
 ### 💻 Requisitos de Software  
 - Python 3.8+ e bibliotecas: `TensorFlow`, `Pandas`, `NumPy`.  
-- Ambiente de desenvolvimento: `STM32CubeIDE`, `Arduino IDE` (para ESP32).  
-- Ferramentas: `Jupyter Notebook`, `Node-RED` (opcional para dashboard).  
+- Ambiente de desenvolvimento: `STM32CubeIDE`, `VS Code`.  
+- Ferramentas: `Dashboard em Node JS e Python`.  
 
 ### 🔧 Passos para Configuração  
 1. **Clonar o repositório**:  
@@ -116,7 +116,7 @@ Agradeço ao **Prof. Luis Carlos Canno** pela orientação, o Professor **Ricard
 
 ---
 
-**Palavras-chave**: Flyback, IA, STM32, TensorFlow Lite, Predição de Falhas.  
+**Palavras-chave**: Flyback, IA, STM32, ESP32, TensorFlow Lite, Predição de Falhas.  
 ``` 
 
-Este README fornece uma visão geral do projeto, instruções de configuração e exemplos práticos. Personalize os caminhos, portas e URLs conforme necessário! 🚀# ic2025-senai
+ 

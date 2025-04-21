@@ -1,9 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
 
-// Import the logo directly
-import senaiLogo from "../public/SENAI_Sao_Paulo_logo.png"
-
 export default function Footer() {
   return (
     <footer className="w-full border-t bg-background">
@@ -32,7 +29,7 @@ export default function Footer() {
               >
                 <div className="relative w-32 h-12 md:w-40 md:h-16 mb-3">
                   <Image 
-                    src={senaiLogo}
+                    src="/ic2025-senai/SENAI_Sao_Paulo_logo.png"
                     alt="Logo SENAI São Paulo" 
                     fill
                     style={{ objectFit: 'contain' }}
