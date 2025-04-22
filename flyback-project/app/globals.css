@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Cores base */
+    --background: 60 9% 98%;
+    --foreground: 24 6% 10%;
+    --card: 60 9% 98%;
+    --card-foreground: 24 6% 10%;
+    --popover: 60 9% 98%;
+    --popover-foreground: 24 6% 10%;
+    
+    /* Cores primárias - Vermelho */
+    --primary: 0 72% 51%;
+    --primary-foreground: 60 9% 98%;
+    
+    /* Cores secundárias - Stone */
+    --secondary: 24 6% 90%;
+    --secondary-foreground: 24 6% 30%;
+    
+    /* Cores complementares */
+    --muted: 24 6% 90%;
+    --muted-foreground: 24 5% 45%;
+    --accent: 24 6% 90%;
+    --accent-foreground: 24 6% 30%;
+    
+    /* Cores utilitárias */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 60 9% 98%;
+    --border: 24 6% 85%;
+    --input: 24 6% 85%;
+    --ring: 0 72% 51%;
+    
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    /* Cores base - modo escuro */
+    --background: 24 10% 10%;
+    --foreground: 60 9% 95%;
+    --card: 24 10% 10%;
+    --card-foreground: 60 9% 95%;
+    --popover: 24 10% 10%;
+    --popover-foreground: 60 9% 95%;
+    
+    /* Cores primárias - Vermelho (mais claro para modo escuro) */
+    --primary: 0 72% 60%;
+    --primary-foreground: 24 10% 10%;
+    
+    /* Cores secundárias - Stone */
+    --secondary: 24 6% 25%;
+    --secondary-foreground: 60 9% 95%;
+    
+    /* Cores complementares */
+    --muted: 24 6% 25%;
+    --muted-foreground: 24 5% 65%;
+    --accent: 24 6% 25%;
+    --accent-foreground: 60 9% 95%;
+    
+    /* Cores utilitárias */
+    --destructive: 0 62% 40%;
+    --destructive-foreground: 60 9% 95%;
+    --border: 24 6% 25%;
+    --input: 24 6% 25%;
+    --ring: 0 72% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  .prose code {
+    @apply font-mono text-sm;
+  }
+
+  .prose pre {
+    @apply font-mono text-sm bg-muted p-4 rounded-md;
+  }
+}
+
+/* Markdown content styling */
+.markdown-content {
+  @apply prose prose-red max-w-none dark:prose-invert;
+  @apply prose-headings:font-roboto prose-headings:font-bold prose-headings:text-primary;
+  @apply prose-p:font-roboto prose-p:text-base;
+  @apply prose-code:font-roboto-mono prose-code:text-sm;
+  @apply prose-pre:font-roboto-mono prose-pre:bg-muted prose-pre:text-sm;
+}
