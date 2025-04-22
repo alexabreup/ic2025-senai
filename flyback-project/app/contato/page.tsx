@@ -361,7 +361,6 @@ export default function ContatoPage() {
                   <p className="text-muted-foreground">
                     alxabreuper@gmail.com
                     <br />
-                    luis.canno@senai.br
                   </p>
                 </div>
               </div>

@@ -1,4 +1,3 @@
-```markdown
 # IA no Controle e Predição de Falhas em Fonte Chaveada Flyback  
 **Projeto de Iniciação Científica**  
 *Orientador: Prof. Luis Carlos Canno | Orientando: Alexandre de Abreu Pereira*
@@ -31,34 +30,6 @@ Este projeto visa desenvolver um sistema inteligente baseado em **Inteligência 
 - Ambiente de desenvolvimento: `STM32CubeIDE`, `VS Code`.  
 - Ferramentas: `Dashboard em Node JS e Python`.  
 
-### 🔧 Passos para Configuração  
-1. **Clonar o repositório**:  
-   ```bash
-   git clone https://github.com/seu-usuario/flyback-ia.git
-   cd flyback-ia
-   ```
-
-2. **Instalar dependências**:  
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. **Coletar dados**:  
-   - Conectar sensores ao STM32.  
-   - Executar script de coleta:  
-     ```python
-     python src/data_collection.py
-     ```
-
-4. **Treinar modelo de IA**:  
-   ```python
-   python src/train_model.py --dataset data/dados_flyback.csv
-   ```
-
-5. **Implementar no STM32**:  
-   - Converter modelo para TensorFlow Lite.  
-   - Carregar firmware no STM32 via STM32CubeIDE.  
-
 ---
 
 ## 📂 Estrutura do Projeto  
@@ -75,29 +46,6 @@ flyback-ia/
 
 ---
 
-## 📈 Exemplo de Código (Coleta de Dados)  
-```python
-# data_collection.py
-import serial
-import pandas as pd
-
-ser = serial.Serial('COM3', 9600)  # Configurar porta serial
-data = []
-
-while True:
-    line = ser.readline().decode().strip()
-    if line:
-        voltage, current, temp = map(float, line.split(','))
-        data.append({
-            'Voltage (V)': voltage,
-            'Current (A)': current,
-            'Temperature (°C)': temp
-        })
-        df = pd.DataFrame(data)
-        df.to_csv('data/dados_flyback.csv', index=False)
-```
-
----
 
 ## 📜 Licença  
 Este projeto está sob a licença MIT. Consulte o arquivo [LICENSE](LICENSE) para detalhes.
