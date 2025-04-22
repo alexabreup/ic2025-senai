@@ -7,13 +7,8 @@ export default function Home() {
     <div className="flex flex-col min-h-[calc(100vh-4rem)]">
       {/* Hero Section */}
       <section 
-        className="w-full py-8 md:py-16 lg:py-24 relative bg-gradient-to-br from-primary/90 to-primary text-primary-foreground"
-        style={{
-          backgroundImage: 'url("/pcb-senai.png")',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundBlendMode: 'multiply',
-        }}
+        className="w-full py-8 md:py-16 lg:py-24 bg-gradient-to-br from-primary/90 to-primary text-primary-foreground"
+        style={{ backgroundImage: 'none' }}
       >
         <div className="container px-4 md:px-6 space-y-8 xl:space-y-12 max-w-full">
           <div className="grid max-w-full mx-auto gap-4 px-4 sm:px-6 md:px-6 md:grid-cols-1 lg:grid-cols-2 md:gap-8">
