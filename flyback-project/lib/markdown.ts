@@ -129,4 +129,4 @@ Realizamos uma análise comparativa de diferentes algoritmos de machine learning
   }
 
   return contentMap[slug] || "Conteúdo não encontrado"
-}
+ }
