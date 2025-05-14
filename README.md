@@ -60,7 +60,7 @@ Este projeto está sob a licença MIT. Consulte o arquivo [LICENSE](LICENSE) par
 ---
 
 ## 🤝 Agradecimentos  
-Agradeço ao **Prof. Luis Carlos Canno** pela orientação, o Professor **Ricardo Alexandre Carmona**, pela confiança no desenvolvimento e execução projeto e à instituição pelo suporte técnico.
+Agradeço ao **Prof. Luis Carlos Canno** por ter aceito o desafio e pela orientação, o Professor **Ricardo Alexandre Carmona**, pela confiança no desenvolvimento e execução projeto e à instituição Senai Anchieta pelo suporte técnico.
 
 ---
 
