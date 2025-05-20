@@ -11,7 +11,10 @@ export async function generateStaticParams() {
 }
 
 export default async function BlogPostPage({ params }: { params: { slug: string } }) {
-  const post = await getPostBySlug(params.slug)
+  // Garantir que params é aguardado antes de acessar suas propriedades
+  const resolvedParams = await Promise.resolve(params)
+  const { slug } = resolvedParams
+  const post = await getPostBySlug(slug)
 
   return (
     <div className="container py-12 md:py-16 lg:py-24">
