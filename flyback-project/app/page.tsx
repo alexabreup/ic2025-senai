@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ChevronRight, Cpu, Database, LineChart } from "lucide-react"
+import { getAllPosts } from "@/lib/markdown"
 
 export default function Home() {
   return (
@@ -155,43 +156,25 @@ export default function Home() {
             </div>
           </div>
           <div className="mx-auto grid max-w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 md:gap-6 mt-8 md:mt-12">
-            {/* Estes seriam posts dinâmicos do blog, aqui estão exemplos estáticos */}
-            <div className="rounded-lg border bg-card text-card-foreground shadow-sm">
-              <div className="p-4 md:p-6 space-y-2">
-                <h3 className="text-lg md:text-xl font-bold">Montagem da Bancada de Teste</h3>
-                <p className="text-xs md:text-sm text-muted-foreground">12 de Abril, 2023</p>
-                <p className="text-sm md:text-base text-muted-foreground">
-                  Concluímos a montagem inicial da bancada com CI TNY286 e sensores para coleta de dados.
-                </p>
-                <Link href="/blog/montagem-bancada" className="text-primary hover:underline inline-flex items-center text-sm md:text-base">
-                  Ler mais <ChevronRight className="ml-1 h-4 w-4" />
-                </Link>
+            {/* Exibir apenas os 3 posts mais recentes do blog */}
+            {getAllPosts().slice(0, 3).map((post) => (
+              <div key={post.slug} className="rounded-lg border bg-card text-card-foreground shadow-sm">
+                <div className="p-4 md:p-6 space-y-2">
+                  <h3 className="text-lg md:text-xl font-bold">{post.title}</h3>
+                  <p className="text-xs md:text-sm text-muted-foreground">
+                    {new Date(post.date).toLocaleDateString("pt-BR", {
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
+                    })}
+                  </p>
+                  <p className="text-sm md:text-base text-muted-foreground">{post.excerpt}</p>
+                  <Link href={`/blog/${post.slug}`} className="text-primary hover:underline inline-flex items-center text-sm md:text-base">
+                    Ler mais <ChevronRight className="ml-1 h-4 w-4" />
+                  </Link>
+                </div>
               </div>
-            </div>
-            <div className="rounded-lg border bg-card text-card-foreground shadow-sm">
-              <div className="p-4 md:p-6 space-y-2">
-                <h3 className="text-lg md:text-xl font-bold">Coleta de Dados Inicial</h3>
-                <p className="text-xs md:text-sm text-muted-foreground">28 de Maio, 2023</p>
-                <p className="text-sm md:text-base text-muted-foreground">
-                  Iniciamos a coleta de dados em condições normais de operação da fonte Flyback.
-                </p>
-                <Link href="/blog/coleta-dados" className="text-primary hover:underline inline-flex items-center text-sm md:text-base">
-                  Ler mais <ChevronRight className="ml-1 h-4 w-4" />
-                </Link>
-              </div>
-            </div>
-            <div className="rounded-lg border bg-card text-card-foreground shadow-sm">
-              <div className="p-4 md:p-6 space-y-2">
-                <h3 className="text-lg md:text-xl font-bold">Seleção de Modelos de IA</h3>
-                <p className="text-xs md:text-sm text-muted-foreground">15 de Junho, 2023</p>
-                <p className="text-sm md:text-base text-muted-foreground">
-                  Análise inicial de CNN, RNN, SVM e Random Forest para o projeto de predição.
-                </p>
-                <Link href="/blog/modelos-ia" className="text-primary hover:underline inline-flex items-center text-sm md:text-base">
-                  Ler mais <ChevronRight className="ml-1 h-4 w-4" />
-                </Link>
-              </div>
-            </div>
+            ))}
           </div>
           <div className="flex justify-center mt-8">
             <Link href="/blog">
