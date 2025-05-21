@@ -8,6 +8,16 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { ArrowLeft, Save } from "lucide-react"
 import { Label } from "@/components/ui/label"
+import { getAllPosts } from "@/lib/markdown"
+
+export const dynamic = "force-static"
+
+export async function generateStaticParams() {
+  const posts = getAllPosts()
+  return posts.map((post) => ({
+    slug: post.slug,
+  }))
+}
 
 export default function EditPostPage({ params }: { params: { slug: string } }) {
   const router = useRouter()
