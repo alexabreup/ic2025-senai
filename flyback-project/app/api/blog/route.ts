@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server"
 import { savePostMarkdown } from "@/lib/markdown"
 
+export const dynamic = "force-static"
+
 export async function POST(request: NextRequest) {
   try {
     const { slug, content, frontmatter } = await request.json()

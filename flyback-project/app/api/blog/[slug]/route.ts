@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server"
 import { getPostMarkdown, savePostMarkdown } from "@/lib/markdown"
 
+export const dynamic = "force-static"
+
 export async function GET(
   request: NextRequest,
   { params }: { params: { slug: string } }
