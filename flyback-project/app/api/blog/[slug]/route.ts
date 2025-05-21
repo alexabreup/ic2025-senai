@@ -1,7 +1,23 @@
 import { NextRequest, NextResponse } from "next/server"
 import { getPostMarkdown, savePostMarkdown } from "@/lib/markdown"
+import fs from 'fs'
+import path from 'path'
 
 export const dynamic = "force-static"
+
+// This function is required for static export
+export async function generateStaticParams() {
+  // Get all blog posts from the content directory
+  const contentDir = path.join(process.cwd(), 'content/blog')
+  const files = fs.readdirSync(contentDir)
+  
+  // Return the slugs for all blog posts
+  return files
+    .filter(file => file.endsWith('.md'))
+    .map(file => ({
+      slug: file.replace(/\.md$/, '')
+    }))
+}
 
 export async function GET(
   request: NextRequest,
