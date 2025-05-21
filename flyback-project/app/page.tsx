@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { ChevronRight, Cpu, Database, LineChart } from "lucide-react"
 import { getAllPosts } from "@/lib/markdown"
@@ -39,17 +40,14 @@ export default function Home() {
             </div>
             <div className="flex items-center justify-center mt-6 lg:mt-0">
               <div className="relative w-full h-[200px] sm:h-[250px] md:h-[300px] lg:h-[400px] bg-white/10 rounded-lg overflow-hidden">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center p-4 md:p-6">
-                    <div className="flex justify-center mb-4">
-                      <Cpu className="h-12 w-12 md:h-16 md:w-16 text-white" />
-                    </div>
-                    <h3 className="text-lg md:text-xl font-bold text-white">Projeto de Iniciação Científica</h3>
-                    <p className="mt-2 text-sm md:text-base text-white/80">
-                      Faculdade de Tecnologia em Eletrônica Industrial do Senai Anchieta
-                    </p>
-                  </div>
-                </div>
+                {/* Image that fills the entire container */}
+                <Image 
+                  src="/ic2025-senai/fonte-chaveada-ic2025.png" 
+                  alt="Fonte Chaveada Flyback" 
+                  fill
+                  style={{ objectFit: 'contain' }}
+                  priority
+                />
               </div>
             </div>
           </div>
