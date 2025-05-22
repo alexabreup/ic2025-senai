@@ -39,7 +39,7 @@ export default function Home() {
             <div className="flex items-center justify-center mt-6 lg:mt-0">
               <div className="relative w-full h-[200px] sm:h-[250px] md:h-[300px] lg:h-[400px] bg-white/10 rounded-lg overflow-hidden">
                 <img 
-                  src="/ic2025-senai/fonte-chaveada-ic2025.png" 
+                  src={withBasePath("/fonte-chaveada-ic2025.png")} 
                   alt="Fonte Chaveada Flyback" 
                   className="object-contain w-full h-full"
                   style={{

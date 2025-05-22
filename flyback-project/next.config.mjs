@@ -1,8 +1,10 @@
 /** @type {import('next').NextConfig} */
+const isProd = process.env.NODE_ENV === 'production';
+
 const nextConfig = {
   output: 'export',
-  basePath: '/ic2025-senai',
-  assetPrefix: '/ic2025-senai',
+  basePath: isProd ? '/ic2025-senai' : '',
+  assetPrefix: isProd ? '/ic2025-senai' : '',
   trailingSlash: true,
   images: {
     unoptimized: true,
