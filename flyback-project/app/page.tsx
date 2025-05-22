@@ -16,7 +16,7 @@ export default function Home() {
             <div className="flex flex-col justify-center space-y-4">
               <div className="space-y-2">
                 <h1 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl lg:text-5xl">
-                  IA no Controle e Predição de Falhas em Fonte Chaveada Flyback
+                  IA no Controle e Predição de Falhas em Fonte Chaveada Flyback - Atualizado em 22/05/2025
                 </h1>
                 <p className="max-w-full text-muted-foreground text-primary-foreground/80 text-sm md:text-base lg:text-lg">
                   Desenvolvimento de um sistema inteligente para monitorar, prever e diagnosticar falhas em fontes
