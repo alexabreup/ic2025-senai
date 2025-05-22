@@ -52,12 +52,12 @@ A lista de materiais (Bill of Materials (BOM)) para o projeto **VIPer22A-based 1
 #### **4. Imagens do Projeto**
 
 ##### **Layout da PCB**
-![PCB Top](/ic2025-senai/viper22-top.png)
+![PCB Top](/viper22-top.png)
 
-![PCB Bottom](/ic2025-senai/viper22-bottom.png)
+![PCB Bottom](/viper22-bottom.png)
 
 ##### **Esquemático do Circuito**
-![Esquemático do Circuito](/ic2025-senai/viper22-smps.jpg)
+![Esquemático do Circuito](/viper22-smps.jpg)
 
 ---
 

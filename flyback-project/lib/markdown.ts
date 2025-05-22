@@ -26,11 +26,14 @@ export async function getPostBySlug(slug: string): Promise<PostMetadata> {
   const fileContents = fs.readFileSync(fullPath, 'utf8')
   const { data, content } = matter(fileContents)
   
+  // Processar o conteúdo markdown para corrigir caminhos de imagens
+  let processedMarkdown = content
+  
   // Converter markdown para HTML com suporte a tabelas e outros recursos do GFM
   const processedContent = await remark()
     .use(remarkGfm)
     .use(html)
-    .process(content)
+    .process(processedMarkdown)
   const contentHtml = processedContent.toString()
 
   return {

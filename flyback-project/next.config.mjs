@@ -1,8 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
-  basePath: '/ic2025-senai',
-  assetPrefix: '/ic2025-senai',
+  // Configure basePath conditionally - only use in production
+  basePath: process.env.NODE_ENV === 'production' ? '/ic2025-senai' : '',
+  assetPrefix: process.env.NODE_ENV === 'production' ? '/ic2025-senai' : '',
   trailingSlash: true,
   images: {
     unoptimized: true,

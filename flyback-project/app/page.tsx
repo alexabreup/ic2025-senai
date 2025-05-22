@@ -1,7 +1,8 @@
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { ChevronRight, Cpu, Database, LineChart } from "lucide-react"
+import { Database, Cpu, Brain, ChevronRight, LineChart } from "lucide-react"
+import { getResourcePath } from "@/lib/utils"
 import { getAllPosts } from "@/lib/markdown"
 
 export default function Home() {
@@ -42,7 +43,7 @@ export default function Home() {
               <div className="relative w-full h-[200px] sm:h-[250px] md:h-[300px] lg:h-[400px] bg-white/10 rounded-lg overflow-hidden">
                 {/* Image that fills the entire container */}
                 <Image 
-                  src="/ic2025-senai/fonte-chaveada-ic2025.png" 
+                  src="/fonte-chaveada-ic2025.png" 
                   alt="Fonte Chaveada Flyback" 
                   fill
                   style={{ objectFit: 'contain' }}
