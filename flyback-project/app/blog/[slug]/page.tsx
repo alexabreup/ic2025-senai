@@ -2,6 +2,7 @@ import Link from "next/link"
 import { getPostBySlug, getAllPosts } from "@/lib/markdown"
 import { Button } from "@/components/ui/button"
 import { ChevronLeft } from "lucide-react"
+import MarkdownContent from "@/components/markdown-content"
 
 export async function generateStaticParams() {
   const posts = getAllPosts()
@@ -11,7 +12,9 @@ export async function generateStaticParams() {
 }
 
 export default async function BlogPostPage({ params }: { params: { slug: string } }) {
-  const post = await getPostBySlug(params.slug)
+  // Certifique-se de que params está disponível antes de acessar suas propriedades
+  const { slug } = params;
+  const post = await getPostBySlug(slug)
 
   return (
     <div className="container py-12 md:py-16 lg:py-24">
@@ -33,7 +36,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
             })}
           </p>
 
-          <div className="markdown-content" dangerouslySetInnerHTML={{ __html: post.content || "" }} />
+          <MarkdownContent content={post.content || ""} />
         </article>
       </div>
     </div>
