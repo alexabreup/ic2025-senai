@@ -1,14 +1,16 @@
 import Link from "next/link"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { ChevronRight, Cpu, Database, LineChart } from "lucide-react"
 import { getAllPosts } from "@/lib/markdown"
-import { withBasePath } from "@/lib/route-utils"
 
 export default function Home() {
   return (
     <div className="flex flex-col min-h-[calc(100vh-4rem)]">
       {/* Hero Section */}
-      <section className="w-full py-8 md:py-16 lg:py-24 bg-gradient-to-br from-red-600/90 to-red-700 text-white">
+      <section 
+        className="w-full py-8 md:py-16 lg:py-24 bg-gradient-to-br from-primary/90 to-primary text-primary-foreground"
+      >
         <div className="container px-4 md:px-6 space-y-8 xl:space-y-12 max-w-full">
           <div className="grid max-w-full mx-auto gap-4 px-4 sm:px-6 md:px-6 md:grid-cols-1 lg:grid-cols-2 md:gap-8">
             <div className="flex flex-col justify-center space-y-4">
@@ -16,14 +18,14 @@ export default function Home() {
                 <h1 className="text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl lg:text-5xl">
                   IA no Controle e Predição de Falhas em Fonte Chaveada Flyback
                 </h1>
-                <p className="max-w-full text-white/80 text-sm md:text-base lg:text-lg">
+                <p className="max-w-full text-muted-foreground text-primary-foreground/80 text-sm md:text-base lg:text-lg">
                   Desenvolvimento de um sistema inteligente para monitorar, prever e diagnosticar falhas em fontes
                   chaveadas utilizando Inteligência Artificial.
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-3 w-full">
                 <Link href="/metodologia" className="w-full sm:w-auto">
-                  <Button size="lg" className="w-full bg-white text-red-600 hover:bg-white/90">
+                  <Button size="lg" className="w-full bg-white text-primary hover:bg-white/90">
                     Metodologia
                     <ChevronRight className="ml-2 h-4 w-4" />
                   </Button>
@@ -38,19 +40,13 @@ export default function Home() {
             </div>
             <div className="flex items-center justify-center mt-6 lg:mt-0">
               <div className="relative w-full h-[200px] sm:h-[250px] md:h-[300px] lg:h-[400px] bg-white/10 rounded-lg overflow-hidden">
-                <img 
-                  src={withBasePath("/fonte-chaveada-ic2025.png")} 
+                {/* Image that fills the entire container */}
+                <Image 
+                  src="/ic2025-senai/fonte-chaveada-ic2025.png" 
                   alt="Fonte Chaveada Flyback" 
-                  className="object-contain w-full h-full"
-                  style={{
-                    position: 'absolute',
-                    height: '100%',
-                    width: '100%',
-                    left: 0,
-                    top: 0,
-                    right: 0,
-                    bottom: 0,
-                  }}
+                  fill
+                  style={{ objectFit: 'contain' }}
+                  priority
                 />
               </div>
             </div>
@@ -158,7 +154,7 @@ export default function Home() {
             </div>
           </div>
           <div className="mx-auto grid max-w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 md:gap-6 mt-8 md:mt-12">
-            {/* Carrega dinamicamente os 3 posts mais recentes do blog */}
+            {/* Exibir apenas os 3 posts mais recentes do blog */}
             {getAllPosts().slice(0, 3).map((post) => (
               <div key={post.slug} className="rounded-lg border bg-card text-card-foreground shadow-sm">
                 <div className="p-4 md:p-6 space-y-2">
@@ -170,9 +166,7 @@ export default function Home() {
                       year: "numeric",
                     })}
                   </p>
-                  <p className="text-sm md:text-base text-muted-foreground">
-                    {post.excerpt}
-                  </p>
+                  <p className="text-sm md:text-base text-muted-foreground">{post.excerpt}</p>
                   <Link href={`/blog/${post.slug}`} className="text-primary hover:underline inline-flex items-center text-sm md:text-base">
                     Ler mais <ChevronRight className="ml-1 h-4 w-4" />
                   </Link>

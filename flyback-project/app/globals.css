@@ -13,7 +13,7 @@
     --popover-foreground: 24 6% 10%;
     
     /* Cores primárias - Vermelho */
-    --primary: 0 72% 51%;
+    --primary: 0 100% 52.11%;
     --primary-foreground: 60 9% 98%;
     
     /* Cores secundárias - Stone */
@@ -46,7 +46,7 @@
     --popover-foreground: 60 9% 95%;
     
     /* Cores primárias - Vermelho (mais claro para modo escuro) */
-    --primary: 0 72% 60%;
+    --primary: 0 100% 60.04%;
     --primary-foreground: 24 10% 10%;
     
     /* Cores secundárias - Stone */

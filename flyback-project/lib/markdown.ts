@@ -1,6 +1,9 @@
 import path from "path"
 import fs from "fs"
 import matter from "gray-matter"
+import { remark } from "remark"
+import html from "remark-html"
+import remarkGfm from "remark-gfm"
 
 const contentDirectory = path.join(process.cwd(), "content")
 const blogDirectory = path.join(contentDirectory, "blog")
@@ -14,58 +17,85 @@ export type PostMetadata = {
 }
 
 export async function getPostBySlug(slug: string): Promise<PostMetadata> {
-  // Lê o arquivo Markdown correspondente ao slug
-  const fullPath = path.join(blogDirectory, `${slug}.md`);
+  const fullPath = path.join(blogDirectory, `${slug}.md`)
   
-  try {
-    const fileContents = fs.readFileSync(fullPath, 'utf8');
-    const matterResult = matter(fileContents);
-    
-    return {
-      slug,
-      title: matterResult.data.title,
-      date: matterResult.data.date,
-      excerpt: matterResult.data.excerpt,
-      content: matterResult.content
-    };
-  } catch (error) {
-    throw new Error(`Post with slug ${slug} not found`);
+  if (!fs.existsSync(fullPath)) {
+    throw new Error(`Post with slug ${slug} not found`)
+  }
+
+  const fileContents = fs.readFileSync(fullPath, 'utf8')
+  const { data, content } = matter(fileContents)
+  
+  // Converter markdown para HTML com suporte a tabelas e outros recursos do GFM
+  const processedContent = await remark()
+    .use(remarkGfm)
+    .use(html)
+    .process(content)
+  const contentHtml = processedContent.toString()
+
+  return {
+    title: data.title,
+    date: data.date,
+    excerpt: data.excerpt || '',
+    slug,
+    content: contentHtml
   }
 }
 
 export function getAllPosts(): PostMetadata[] {
-  // Lê todos os arquivos do diretório blog
-  const fileNames = fs.readdirSync(blogDirectory);
+  // Ler todos os arquivos no diretório de blog
+  const fileNames = fs.readdirSync(blogDirectory)
   const allPostsData = fileNames
     .filter(fileName => fileName.endsWith('.md'))
     .map(fileName => {
-      // Remove a extensão ".md" para obter o slug
-      const slug = fileName.replace(/\.md$/, '');
+      // Remover a extensão ".md" para obter o slug
+      const slug = fileName.replace(/\.md$/, '')
       
-      // Lê o conteúdo do arquivo Markdown
-      const fullPath = path.join(blogDirectory, fileName);
-      const fileContents = fs.readFileSync(fullPath, 'utf8');
+      // Ler o conteúdo do arquivo markdown
+      const fullPath = path.join(blogDirectory, fileName)
+      const fileContents = fs.readFileSync(fullPath, 'utf8')
       
-      // Usa gray-matter para analisar a seção de metadados do post
-      const matterResult = matter(fileContents);
+      // Usar gray-matter para analisar a seção de metadados do post
+      const { data } = matter(fileContents)
       
-      // Combina os dados com o slug
+      // Combinar os dados com o slug
       return {
-        slug,
-        title: matterResult.data.title,
-        date: matterResult.data.date,
-        excerpt: matterResult.data.excerpt,
-      } as PostMetadata;
-    });
-    
-  // Ordena os posts por data, do mais recente para o mais antigo
+        title: data.title,
+        date: data.date,
+        excerpt: data.excerpt || '',
+        slug
+      }
+    })
+  
+  // Ordenar posts pela data, do mais recente para o mais antigo
   return allPostsData.sort((a, b) => {
-    if (new Date(a.date) < new Date(b.date)) {
-      return 1;
+    if (a.date < b.date) {
+      return 1
     } else {
-      return -1;
+      return -1
     }
-  });
+  })
 }
 
-// Esta função não é mais necessária, pois o conteúdo é obtido diretamente em getPostBySlug
+export async function getPostMarkdown(slug: string): Promise<{ content: string, data: any }> {
+  const fullPath = path.join(blogDirectory, `${slug}.md`)
+  
+  if (!fs.existsSync(fullPath)) {
+    throw new Error(`Post with slug ${slug} not found`)
+  }
+
+  const fileContents = fs.readFileSync(fullPath, 'utf8')
+  const { data, content } = matter(fileContents)
+  
+  return { content, data }
+}
+
+export async function savePostMarkdown(slug: string, content: string, frontmatter: any): Promise<void> {
+  const fullPath = path.join(blogDirectory, `${slug}.md`)
+  
+  // Criar o conteúdo do arquivo com frontmatter e markdown
+  const fileContent = matter.stringify(content, frontmatter)
+  
+  // Escrever no arquivo
+  fs.writeFileSync(fullPath, fileContent, 'utf8')
+}
