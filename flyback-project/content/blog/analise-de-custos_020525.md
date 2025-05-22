@@ -2,7 +2,6 @@
 title: "RELATÓRIO DE COMPRAS – ARTIGO DE CUSTOS"
 date: "2025-05-02"
 excerpt: "Relatório consolidado dos custos das aquisições de equipamentos e componentes eletrônicos realizados entre março e abril de 2025, incluindo o planejamento para aquisição de uma Router CNC."
-
 ---
 
 # RELATÓRIO DE COMPRAS – ARTIGO DE CUSTOS  

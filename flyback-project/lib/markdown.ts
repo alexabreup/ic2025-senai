@@ -45,8 +45,19 @@ export async function getPostBySlug(slug: string): Promise<PostMetadata> {
 export function getAllPosts(): PostMetadata[] {
   // Ler todos os arquivos no diretório de blog
   const fileNames = fs.readdirSync(blogDirectory)
+  
+  // Lista de artigos específicos que queremos manter
+  const allowedArticles = [
+    'analise-de-custos_020525.md',
+    'analise-de-erros_viper22_090525.md',
+    'bancada_testes_200425.md',
+    'datasheet-viper22_070425.md',
+    'lista-materiais-viper22_120425.md',
+    'ml-ia-viper22_080425.md'
+  ]
+  
   const allPostsData = fileNames
-    .filter(fileName => fileName.endsWith('.md'))
+    .filter(fileName => fileName.endsWith('.md') && allowedArticles.includes(fileName))
     .map(fileName => {
       // Remover a extensão ".md" para obter o slug
       const slug = fileName.replace(/\.md$/, '')
