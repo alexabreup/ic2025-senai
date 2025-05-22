@@ -4,6 +4,7 @@ import matter from "gray-matter"
 import { remark } from "remark"
 import html from "remark-html"
 import remarkGfm from "remark-gfm"
+import { withBasePath } from "@/lib/route-utils"
 
 const contentDirectory = path.join(process.cwd(), "content")
 const blogDirectory = path.join(contentDirectory, "blog")
@@ -16,6 +17,31 @@ export type PostMetadata = {
   content?: string
 }
 
+// Função para converter links e imagens do formato Obsidian para markdown padrão
+function convertObsidianToMarkdown(content: string): string {
+  // Converter links wiki do Obsidian [[link]] para [link](link)
+  let processedContent = content.replace(/\[\[([^\]]+)\]\]/g, '[$1]($1)');
+  
+  // Converter imagens do Obsidian ![[imagem.png]] para ![](/attachments/imagem.png)
+  processedContent = processedContent.replace(/!\[\[([^\]]+)\]\]/g, (match, filename) => {
+    return `![](${withBasePath('/attachments/' + filename)})`;
+  });
+  
+  return processedContent;
+}
+
+// Função para converter o frontmatter do Obsidian para o formato esperado
+function convertObsidianFrontmatter(data: any): any {
+  let newData = {...data};
+  
+  // Converter data para string se for um objeto Date
+  if (newData.date && typeof newData.date !== 'string') {
+    newData.date = newData.date.toISOString().split('T')[0];
+  }
+  
+  return newData;
+}
+
 export async function getPostBySlug(slug: string): Promise<PostMetadata> {
   const fullPath = path.join(blogDirectory, `${slug}.md`)
   
@@ -26,11 +52,14 @@ export async function getPostBySlug(slug: string): Promise<PostMetadata> {
   const fileContents = fs.readFileSync(fullPath, 'utf8')
   const { data, content } = matter(fileContents)
   
+  // Converter conteúdo do formato Obsidian para markdown padrão
+  const obsidianProcessedContent = convertObsidianToMarkdown(content)
+  
   // Converter markdown para HTML com suporte a tabelas e outros recursos do GFM
   const processedContent = await remark()
     .use(remarkGfm)
     .use(html)
-    .process(content)
+    .process(obsidianProcessedContent)
   const contentHtml = processedContent.toString()
 
   return {
@@ -87,7 +116,7 @@ export async function getPostMarkdown(slug: string): Promise<{ content: string, 
   const fileContents = fs.readFileSync(fullPath, 'utf8')
   const { data, content } = matter(fileContents)
   
-  return { content, data }
+  return { content, data: convertObsidianFrontmatter(data) }
 }
 
 export async function savePostMarkdown(slug: string, content: string, frontmatter: any): Promise<void> {
