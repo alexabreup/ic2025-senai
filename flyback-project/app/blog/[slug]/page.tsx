@@ -2,7 +2,6 @@ import Link from "next/link"
 import { getPostBySlug, getAllPosts } from "@/lib/markdown"
 import { Button } from "@/components/ui/button"
 import { ChevronLeft } from "lucide-react"
-import MarkdownContent from "@/components/markdown-content"
 
 export async function generateStaticParams() {
   const posts = getAllPosts()
@@ -12,8 +11,11 @@ export async function generateStaticParams() {
 }
 
 export default async function BlogPostPage({ params }: { params: { slug: string } }) {
-  // Certifique-se de que params está disponível antes de acessar suas propriedades
-  const { slug } = params;
+  // Aguardar explicitamente os parâmetros antes de usá-los
+  // Esta é a forma recomendada pelo Next.js para lidar com parâmetros dinâmicos
+  const slug = params?.slug ? await Promise.resolve(params.slug) : ""
+  
+  // Buscar o post pelo slug
   const post = await getPostBySlug(slug)
 
   return (
@@ -36,7 +38,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
             })}
           </p>
 
-          <MarkdownContent content={post.content || ""} />
+          <div className="markdown-content" dangerouslySetInnerHTML={{ __html: post.content || "" }} />
         </article>
       </div>
     </div>
