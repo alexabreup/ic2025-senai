@@ -26,9 +26,20 @@ export default function Footer() {
               rel="noopener noreferrer"
               className="text-sm text-muted-foreground hover:underline block"
             >
-              Faculdade de Tecnologia em Eletrônica Industrial do Senai Anchieta
-              <br />
-              Vila Mariana, São Paulo, SP Brasil
+              <div className="flex flex-col items-start">
+                <Image 
+                  src="/SENAI_Sao_Paulo_logo.png" 
+                  alt="Logo SENAI São Paulo" 
+                  width={150} 
+                  height={50} 
+                  className="mb-2" 
+                />
+                <span>
+                  Faculdade de Tecnologia em Eletrônica Industrial do Senai Anchieta
+                  <br />
+                  Vila Mariana, São Paulo, SP Brasil
+                </span>
+              </div>
             </Link>
           </div>
         </div>

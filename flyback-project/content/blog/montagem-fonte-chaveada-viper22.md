@@ -1,5 +1,6 @@
 ---
 title: "Montagem de Fonte Chaveada VIPer22"
+date: "2025-04-27"
 ---
 
 # **Projeto de Fonte Chaveada SMPS Flyback com VIPer22A – 12W de Saída (5V e 12V)**  
