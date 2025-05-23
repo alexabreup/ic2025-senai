@@ -26,9 +26,9 @@ Ambos os projetos demonstram implementações funcionais, e aqui vamos **combina
 | Frequência de chaveio| ~60kHz                  |  
 
 ---
-![Fonte chaveada VIPer22A - Vista superior](/viper22-top.png)
+![Fonte chaveada VIPer22A - Vista superior](/ic2025-senai/viper22-top.png)
 
-![Fonte chaveada VIPer22A - Vista inferior](/viper22-bottom.png)
+![Fonte chaveada VIPer22A - Vista inferior](/ic2025-senai/viper22-bottom.png)
 ---
 
 ## **Componentes Principais**  
@@ -63,7 +63,7 @@ Ambos os projetos demonstram implementações funcionais, e aqui vamos **combina
 
 ## **Esquemático e Funcionamento**  
 
-![Fonte chaveada VIPer22A - Vista inferior](/viper22-smps.jpg)
+![Fonte chaveada VIPer22A - Vista inferior](/ic2025-senai/viper22-smps.jpg)
 
 ### **1. Etapas do Circuito**  
 1. **Entrada CA** → Retificação em onda completa + filtro (capacitor de alta tensão).  
