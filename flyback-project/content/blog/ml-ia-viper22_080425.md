@@ -5,9 +5,6 @@ excerpt: "Teste de IA para predição de falhas em fontes chaveadas Flyback com 
 ---
 
 
-
-# Sistema Inteligente para Análise de Fontes Chaveadas Flyback com VIPer22A usando TensorFlow e TensorFlow Lite
-
 ## 1. Introdução
 
 Este documento descreve uma arquitetura de Aprendizado de Máquina (ML) aplicada à análise de fontes chaveadas Flyback baseadas no VIPer22A, utilizando **TensorFlow** (para treinamento) e **TensorFlow Lite** (para inferência em dispositivos embarcados). O sistema integra-se a um **dashboard de gerenciamento industrial** que monitora custos, desempenho e falhas em tempo real.
