@@ -5,7 +5,6 @@ excerpt: ""
 ---
 
 
-# Análise de Erros em Fontes Chaveadas Flyback com VIPer22A: Integrando o Datasheet ao Fluxograma de Diagnóstico
 
 ## Análise Aprimorada com Base no Datasheet VIPer22A-E
 
@@ -26,13 +25,13 @@ O datasheet do **VIPer22A** (Doc ID 12050 Rev 2) fornece informações críticas
 #### Árvore de decisão ampliada:
 
 - **Se VDD < 8V:**
-  - Verificar resistor de partida (`Rstart`) e capacitor `Cvdd` (recomenda-se `Cvdd ≥ 10µF`)
+  - Verificar resistor de partida ($$R_{start}$$) e capacitor $$C_{vdd}$$ (recomenda-se $$C_{vdd} \geq 10\mu F$$)
   - Checar diodo do enrolamento auxiliar (deve suportar >42V)
   - Medir corrente de partida (ideal ≈1mA com VDS >100V)
 
 - **Se VDD oscila entre 8-14.5V:**
   - Falha no enrolamento auxiliar (verificar indutância e acoplamento)
-  - Capacitor `VDD` com ESR alto (substituir por capacitor de qualidade)
+  - Capacitor $$V_{DD}$$ com ESR alto (substituir por capacitor de qualidade)
 
 ---
 
@@ -50,7 +49,7 @@ O datasheet do **VIPer22A** (Doc ID 12050 Rev 2) fornece informações críticas
 #### Procedimento expandido:
 
 ```mermaid
-graph TD
+flowchart TD
     A[Fonte pulsando?] --> B{Medir VDD com osciloscópio}
     B -->|VDD > 42V| C[Problema no enrolamento auxiliar]
     B -->|VDD oscila 8-14.5V| D[Verificar capacitor VDD]
@@ -66,21 +65,19 @@ graph TD
 #### Equações críticas do datasheet:
 
 Corrente de dreno controlada:
-```
-I_D = G_ID × (0.23V/R_2 - I_FB)
-```
+$$I_D = G_{ID} \times (0.23V/R_2 - I_{FB})$$
 Onde:
-- `G_ID = 560` (típico)
-- `R_2 = 230Ω`
+- $$G_{ID} = 560$$ (típico)
+- $$R_2 = 230\Omega$$
 
 Limite de corrente (`FB pin = 0V`):
-- `I_Dlim = 0.7A` (típico)
+- $$I_{Dlim} = 0.7A$$ (típico)
 
 #### Teste aprimorado do TL431:
 
 - Injetar tensão variável na saída (23V a 25V conforme fluxograma)
 - Monitorar `V_FB` (deve variar entre 0–1V)
-- Se `I_FB > 0.9mA (IFBsd)` → CI entra em proteção
+- Se $$I_{FB} > 0.9mA$$ ($$I_{FBsd}$$) → CI entra em proteção
 
 ---
 
@@ -111,12 +108,10 @@ Limite de corrente (`FB pin = 0V`):
 #### Procedimento:
 
 Calcular temperatura de junção:
-```
-Tj = Ta + (RthJA × Pdiss)
-```
+$$T_j = T_a + (R_{thJA} \times P_{diss})$$
 
-- Se `Tj > 125°C`: Reduzir `Pdiss` ou melhorar refrigeração
-- Verificar `RDS(on)` do MOSFET (máx. 17Ω a 100°C)
+- Se $$T_j > 125°C$$: Reduzir $$P_{diss}$$ ou melhorar refrigeração
+- Verificar $$R_{DS(on)}$$ do MOSFET (máx. $$17\Omega$$ a $$100°C$$)
 
 ---
 
@@ -134,15 +129,15 @@ Tj = Ta + (RthJA × Pdiss)
 ### Caso 2: Corrente de saída limitada  
 **Sintoma:** ID < 0.4A com carga nominal  
 **Diagnóstico:**
-- Medir tensão no `FB pin` (deve ser ~0.5V com carga)
-- Verificar optoacoplador (`CTR >100%`)
+- Medir tensão no $$FB_{pin}$$ (deve ser $$\sim 0.5V$$ com carga)
+- Verificar optoacoplador ($$CTR > 100\%$$)
 - Checar resistores do divisor de tensão no secundário
 
 ---
 
 ### Caso 3: Fonte desliga sob alta temperatura  
 **Solução:**
-- Medir `RDS(on)` do MOSFET integrado (≈17Ω a 100°C)
+- Medir $$R_{DS(on)}$$ do MOSFET integrado ($$\approx 17\Omega$$ a $$100°C$$)
 - Verificar fluxo de ar no gabinete
 - Considerar usar versão **DIP-8** (`RthJA = 45°C/W`)
 
@@ -151,16 +146,19 @@ Tj = Ta + (RthJA × Pdiss)
 ## Fluxograma de Diagnóstico Integrado
 
 ```mermaid
-graph TD
-    A[Fonte não liga?] --> B{Medir VDD}
-    B -->|VDD=0| C[Checar retificador e fusível]
-    B -->|0<VDD<8V| D[Verificar circuito de partida]
-    B -->|8V<VDD<14.5V| E[Testar enrolamento auxiliar]
-    B -->|VDD>42V| F[Problema no regulador VDD]
-    A --> G[Fonte liga mas desliga] --> H{Forma de onda no dreno}
-    H -->|Pulsos curtos| I[Proteção ativa - Checar FB]
-    H -->|DC contínuo| J[Falha no CI VIPer22A]
+flowchart TD
+    A["Fonte não liga?"] --> B{"Medir VDD"}
+    B -->|"VDD=0"| C["Checar retificador"]
+    B -->|"VDD entre 0-8V"| D["Verificar circuito"]
+    B -->|"VDD entre 8-14.5V"| E["Testar enrolamento"]
+    B -->|"VDD acima 42V"| F["Problema regulador"]
+    A --> G["Fonte liga e desliga"]
+    G --> H{"Forma de onda"}
+    H -->|"Pulsos curtos"| I["Proteção ativa"]
+    H -->|"DC contínuo"| J["Falha no CI"]
 ```
+
+
 
 ---
 

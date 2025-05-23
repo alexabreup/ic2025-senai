@@ -48,18 +48,18 @@ O **ESP32** é responsável pelo envio dos dados para a nuvem (IoT), quando nece
 
 ```mermaid
 graph TD
-    A[Sensores DC (INA219)] --> B[STM32 (I²C)]
-    B --> C[Dados de tensão/corrente de saída]
-
-    D[Sensores AC (ZMPT101B, SCT-013)] --> E[STM32 (ADC)]
-    E --> F[Análise de harmônicos e consumo]
-
-    G[Termopares] --> H[Amplificador (MAX6675)]
-    H --> I[STM32 (SPI)]
-    I --> J[Monitoramento térmico]
-
-    K[ADS1256] --> L[STM32 (SPI)]
-    L --> M[Leitura de ripple e distorção harmônica (THD)]
+    A["Sensores DC - INA219"] --> B["STM32 com I2C"]
+    B --> C["Dados de tensão e corrente"]
+    
+    D["Sensores AC"] --> E["STM32 com ADC"]
+    E --> F["Análise de harmônicos"]
+    
+    G["Termopares"] --> H["Amplificador"]
+    H --> I["STM32 com SPI"]
+    I --> J["Monitoramento térmico"]
+    
+    K["ADS1256"] --> L["STM32 com SPI"]
+    L --> M["Leitura de ripple"]
 ```
 
 ---

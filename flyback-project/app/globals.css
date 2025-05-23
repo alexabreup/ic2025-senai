@@ -91,5 +91,15 @@
   @apply prose-headings:font-roboto prose-headings:font-bold prose-headings:text-primary;
   @apply prose-p:font-roboto prose-p:text-base;
   @apply prose-code:font-roboto-mono prose-code:text-sm;
-  @apply prose-pre:font-roboto-mono prose-pre:bg-muted prose-pre:text-sm;
+  @apply prose-pre:font-roboto-mono prose-pre:text-sm;
+  
+  /* Custom styling for pre elements */
+  & pre {
+    border-radius: calc(var(--radius) - 2px);
+    background-color: hsl(0deg 0% 26.92%);
+    padding: 1rem;
+    font-family: var(--font-roboto-mono);
+    font-size: 0.875rem;
+    line-height: 20px;
+  }
 }

@@ -15,6 +15,15 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  // Configuração para webpack para lidar com o KaTeX
+  webpack: (config) => {
+    // Resolver o problema com o pacote KaTeX que usa 'fs'
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      fs: false,
+    };
+    return config;
+  },
 }
 
 export default nextConfig

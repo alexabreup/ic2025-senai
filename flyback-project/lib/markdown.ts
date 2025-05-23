@@ -4,6 +4,8 @@ import matter from "gray-matter"
 import { remark } from "remark"
 import html from "remark-html"
 import remarkGfm from "remark-gfm"
+import remarkMath from "remark-math"
+import rehypeKatex from "rehype-katex"
 import { withBasePath } from "@/lib/route-utils"
 
 const contentDirectory = path.join(process.cwd(), "content")
@@ -55,10 +57,12 @@ export async function getPostBySlug(slug: string): Promise<PostMetadata> {
   // Converter conteúdo do formato Obsidian para markdown padrão
   const obsidianProcessedContent = convertObsidianToMarkdown(content)
   
-  // Converter markdown para HTML com suporte a tabelas e outros recursos do GFM
+  // Converter markdown para HTML com suporte a tabelas, matemática e outros recursos
   const processedContent = await remark()
     .use(remarkGfm)
-    .use(html)
+    .use(remarkMath) // Suporte para expressões matemáticas
+    .use(html, { sanitize: false }) // Desabilitar sanitização para permitir tags KaTeX
+    .use(rehypeKatex) // Renderizar expressões matemáticas com KaTeX
     .process(obsidianProcessedContent)
   const contentHtml = processedContent.toString()
 

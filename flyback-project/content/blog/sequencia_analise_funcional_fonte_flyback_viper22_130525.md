@@ -1,4 +1,6 @@
-Com base no artigo **[How to Design a Flyback Converter in Seven Steps](https://www.powersystemsdesign.com/articles/how-to-design-a-flyback-converter-in-seven-steps/22/17891)** e na fonte chaveada apresentada no projeto do Hackster.io **[Viper22A 12V-5V SMPS with 12W Total Output](https://www.hackster.io/FiDeNet/viper22a-12v-5v-smps-with-12w-total-output-fef0bc)**, vamos desenvolver uma **sequência de análise funcional da fonte**, passo a passo, para garantir seu correto funcionamento e permitir testes mais profundos (inclusive para uso em sistemas inteligentes como detecção de falhas com IA).
+---
+title: "Sequência de Análise Funcional da Fonte Chaveada Flyback com VIPer22A"
+date: "2025-05-13"
 
 ---
 

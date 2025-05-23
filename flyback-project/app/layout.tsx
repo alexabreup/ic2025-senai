@@ -2,6 +2,8 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Roboto, Roboto_Mono } from "next/font/google"
 import "./globals.css"
+import "katex/dist/katex.min.css" // Importar CSS do KaTeX
+import "@/styles/katex.css" // Importar estilos personalizados para KaTeX
 import { ThemeProvider } from "@/components/theme-provider"
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"

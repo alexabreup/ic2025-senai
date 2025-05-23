@@ -1,0 +1,37 @@
+/* Estilos personalizados para KaTeX */
+
+/* Melhorar o espaçamento para equações em linha */
+.katex-inline {
+  padding: 0 0.2em;
+}
+
+/* Melhorar o espaçamento para equações em bloco */
+.katex-display {
+  margin: 1.5em 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.5em 0;
+}
+
+/* Ajustar o tamanho das equações em dispositivos móveis */
+@media (max-width: 768px) {
+  .katex-display {
+    font-size: 0.9em;
+  }
+}
+
+/* Melhorar a legibilidade em modo escuro */
+.dark .katex {
+  color: #e0e0e0;
+}
+
+/* Estilizar o contêiner de equações matemáticas */
+.markdown-content .math {
+  background-color: rgba(0, 0, 0, 0.03);
+  border-radius: 4px;
+  padding: 1em;
+}
+
+.dark .markdown-content .math {
+  background-color: rgba(255, 255, 255, 0.05);
+}
