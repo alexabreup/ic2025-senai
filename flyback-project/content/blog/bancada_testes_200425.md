@@ -14,7 +14,7 @@ A bancada de testes para a fonte chaveada Flyback utilizando o CI **VIPer22** fo
 
 Este documento descreve a configuração dos dispositivos de medição e sua integração com microcontroladores (**STM32/ESP32**) para coleta e processamento de dados em tempo real.
 
-![Bancada de Testes](/ic2025-senai/bancada_testes_200425.png)
+![Bancada de Testes](/bancada_testes_200425.png)
 
 ---
 
