@@ -5,9 +5,6 @@ excerpt: ""
 ---
 
  
-
-# Bancada de Testes para Fonte Chaveada Flyback com VIPer22: Disposição dos Dispositivos de Medição
-
 ## 1. Introdução
 
 A bancada de testes para a fonte chaveada Flyback utilizando o CI **VIPer22** foi projetada para permitir a aquisição de dados de tensão, corrente, temperatura e harmônicos, visando o treinamento de modelos de IA para detecção e predição de falhas.
