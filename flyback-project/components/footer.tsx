@@ -28,7 +28,7 @@ export default function Footer() {
             >
               <div className="flex flex-col items-start">
                 <Image 
-                  src="/SENAI_Sao_Paulo_logo.png" 
+                  src="/ic2025-senai/SENAI_Sao_Paulo_logo.png" 
                   alt="Logo SENAI São Paulo" 
                   width={150} 
                   height={50} 
