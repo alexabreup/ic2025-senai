@@ -6,7 +6,7 @@ excerpt: Dimensionamento em sete etapas
 
  
 
-Com base no artigo **[How to Design a Flyback Converter in Seven Steps](https://www.powersystemsdesign.com/articles/how-to-design-a-flyback-converter-in-seven-steps/22/17891)**, abaixo estão as **expressões matemáticas principais** utilizadas no projeto de um conversor flyback em **modo de condução descontínuo (DCM)**. Essas equações são fundamentais para o cálculo dos componentes e análise do funcionamento da fonte.
+Apresento as **expressões matemáticas principais** utilizadas no projeto de um conversor flyback em **modo de condução descontínuo (DCM)**. Essas equações são fundamentais para o cálculo dos componentes e análise do funcionamento da fonte.
 
 ---
 

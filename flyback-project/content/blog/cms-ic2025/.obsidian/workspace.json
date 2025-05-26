@@ -41,12 +41,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "sequencia_analise_funcional_fonte_flyback_viper22_130525.md",
+                "file": "Untitled.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "sequencia_analise_funcional_fonte_flyback_viper22_130525"
+              "title": "Untitled"
             }
           }
         ],
@@ -215,6 +215,7 @@
   },
   "active": "f67637a957545c16",
   "lastOpenFiles": [
+    "Untitled.md",
     "dimensionamento_flyback.md",
     "sequencia_analise_funcional_fonte_flyback_viper22_130525.md",
     "lista_de_testes_de_bancada_100525.md",
