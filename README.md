@@ -53,7 +53,7 @@ Este projeto está sob a licença MIT. Consulte o arquivo [LICENSE](LICENSE) par
 ---
 
 ## 📚 Referências  
-- [Datasheet TNY286](https://www.power.com/sites/default/files/product-docs/tinyswitch-4_family_datasheet.pdf)  
+- [Datasheet Viper22](https://www.power.com/sites/default/files/product-docs/tinyswitch-4_family_datasheet.pdf)  
 - [Documentação TensorFlow Lite](https://www.tensorflow.org/lite)  
 - [STM32CubeIDE](https://www.st.com/en/development-tools/stm32cubeide.html)  
 

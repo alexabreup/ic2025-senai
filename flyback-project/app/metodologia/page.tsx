@@ -14,7 +14,7 @@ export default function MetodologiaPage() {
           </p>
           <ul>
             <li>
-              <strong>Componentes:</strong> Fonte Flyback com CI TNY286, carga eletrônica ajustável, sensores (tensão,
+              <strong>Componentes:</strong> Fonte Flyback com CI Viper22, carga eletrônica ajustável, sensores (tensão,
               corrente, temperatura, harmônicos), microcontroladores STM32 e ESP32.
             </li>
             <li>
