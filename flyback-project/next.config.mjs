@@ -13,12 +13,10 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  // Garantir que os arquivos sejam exportados como HTML
-  exportPathMap: async function () {
-    return {
-      '/': { page: '/' },
-      '/blog': { page: '/blog' },
-    };
+  // Configurações para garantir que os arquivos sejam exportados corretamente
+  // Nota: exportPathMap não é compatível com o diretório app
+  experimental: {
+    appDir: true,
   },
 }
 
