@@ -13,6 +13,13 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  // Garantir que os arquivos sejam exportados como HTML
+  exportPathMap: async function () {
+    return {
+      '/': { page: '/' },
+      '/blog': { page: '/blog' },
+    };
+  },
 }
 
 export default nextConfig

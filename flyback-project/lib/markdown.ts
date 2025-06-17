@@ -53,7 +53,8 @@ export function getAllPosts(): PostMetadata[] {
     'bancada_testes_200425.md',
     'datasheet-viper22_070425.md',
     'lista-materiais-viper22_120425.md',
-    'ml-ia-viper22_080425.md'
+    'ml-ia-viper22_080425.md',
+    'transformador_filtro_viper22a_130625.md'
   ]
   
   const allPostsData = fileNames
