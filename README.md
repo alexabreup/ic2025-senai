@@ -3,6 +3,8 @@
 **Projeto de Iniciação Científica**  
 *Orientador: Prof. Luis Carlos Canno | Orientando: Alexandre de Abreu Pereira*
 
+*Última atualização: 20 de junho de 2025*
+
 ---
 
 ## 📖 Introdução  
